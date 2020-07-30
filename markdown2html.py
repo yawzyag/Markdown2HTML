@@ -5,10 +5,9 @@ import os
 
 
 def main(argv):
-    """markdown to func"""
+    """markdown to html func"""
     args = sys.argv[1:]
     if (len(args) < 2):
-        # print to standart error
         print("Usage: ./markdown2html.py README.md README.html",
               file=sys.stderr)
         sys.exit(1)
@@ -19,5 +18,5 @@ def main(argv):
 
 
 if __name__ == "__main__":
-    """pass to main func"""
+    """pass argv to main func"""
     main(sys.argv)

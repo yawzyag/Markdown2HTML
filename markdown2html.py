@@ -32,6 +32,8 @@ def read_file(filename="", outputfile=""):
         for line in juanito:
             if(line.strip()[0] == "#"):
                 finall_text += transform_title(line.strip())
+            else:
+                finall_text += line
         write_file(outputfile, finall_text)
 
 

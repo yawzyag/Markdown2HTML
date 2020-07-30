@@ -18,10 +18,11 @@ def transform_title(string_title=""):
         if (letter == "#"):
             hsize += 1
     html_title = "".join(
-        i for i in string_title if not i in chars_to_remove).strip()
+        i for i in string_title if i not in chars_to_remove).strip()
     heading_format_start = "<h{}>".format(hsize)
     heading_format_end = "</h{}>".format(hsize)
-    return "{}{}{}\n".format(heading_format_start, html_title, heading_format_end)
+    return "{}{}{}\n".format(heading_format_start,
+                             html_title, heading_format_end)
 
 
 def read_file(filename="", outputfile=""):

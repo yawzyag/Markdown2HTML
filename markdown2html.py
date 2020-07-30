@@ -40,8 +40,7 @@ def main(argv):
     """markdown to html func"""
     args = sys.argv[1:]
     if (len(args) < 2):
-        print("Usage: ./markdown2html.py README.md README.html",
-              file=sys.stderr)
+        print("Usage: ./markdown2html.py README.md README.html")
         sys.exit(1)
     if (not os.path.isfile(args[0])):
         print("Missing", args[0], file=sys.stderr)

@@ -41,31 +41,51 @@ def transform_order_list(string_list=""):
     return "<li>{}</li>\n".format(string_list)
 
 
+def transform_paragraph(string_paragraph=""):
+    """transform html format list to html"""
+    return "{}\n".format(string_paragraph.strip())
+
+
 def read_file(filename="", outputfile=""):
     """read the md file"""
     with open(filename, encoding="UTF8") as juanito:
         finall_text = ""
-        for line in juanito:
-            text_list = ""
-            if(len(line) > 1 and line.strip()[0] == "#"):
+        lines = [line for line in juanito]
+        prev_line = ""
+        i = 0
+        for line in lines:
+            if (lines[i-1]):
+                prev_line = lines[i-1]
+            temporal_text = ""
+            if(len(line.strip()) > 1 and line.strip()[0] == "#"):
                 finall_text += transform_title(line.strip())
-            elif (len(line) > 1 and line.strip()[0] == "-"):
+            elif (len(line.strip()) > 1 and line.strip()[0] == "-"):
                 if (finall_text[-6:-1] == "</ul>"):
                     finall_text = finall_text[0:-6]
                 else:
-                    text_list += "<ul>\n"
-                text_list += transform_list(line.strip())
-                text_list += "</ul>\n"
-            elif (len(line) > 1 and line.strip()[0] == "*"):
+                    temporal_text += "<ul>\n"
+                temporal_text += transform_list(line.strip())
+                temporal_text += "</ul>\n"
+            elif (len(line.strip()) > 1 and line.strip()[0] == "*"):
                 if (finall_text[-6:-1] == "</ol>"):
                     finall_text = finall_text[0:-6]
                 else:
-                    text_list += "<ol>\n"
-                text_list += transform_order_list(line.strip())
-                text_list += "</ol>\n"
+                    temporal_text += "<ol>\n"
+                temporal_text += transform_order_list(line.strip())
+                temporal_text += "</ol>\n"
+            elif (len(line.strip()) > 1 and line.strip()[0].isalpha()):
+                if (len(prev_line.strip()) > 1 and
+                        finall_text[-6:-1].strip() == "</p>"):
+                    finall_text = finall_text[0:-6]
+                    temporal_text += "\n<br />\n"
+                else:
+                    temporal_text += "<p>\n"
+                temporal_text += transform_paragraph(line)
+                temporal_text += "</p>\n"
             else:
                 finall_text += ""
-            finall_text += text_list
+            finall_text += temporal_text
+            i += 1
         write_file(outputfile, finall_text)
 
 

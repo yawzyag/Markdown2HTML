@@ -35,8 +35,8 @@
 
 # heading for order list
 
-* Hello
-* Bye
+- Hello
+- Bye
 
 ## finish order list
 
@@ -47,31 +47,40 @@ Hello
 I'm a text
 with 2 lines
 
-            
-
 ## simple text finish
 
 # heading for order list
 
 Hello
-* Hello
-* Bye
-I'm a text
-with 2 lines
 
-            
+- Hello
+- Bye
+  I'm a text
+  with 2 lines
+
 
 ## simple text finish
 
 # My title
+
 - He**l**lo
 - Bye
 
 Hello
 
 I'm **a** text **2**
-with __2 lines__
+with **2 lines**
+
+**fake bold ** \*\*
 
 **Or in bold**
 
 # title
+
+## md5
+
+((I will live in Caracas))
+
+But it's [[private]]
+
+So cool!

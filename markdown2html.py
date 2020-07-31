@@ -2,6 +2,8 @@
 """markdown to html"""
 import sys
 import os
+import re
+import hashlib
 
 
 def nth_repl(s, sub, repl, n):
@@ -77,6 +79,39 @@ def transform_em(string_em=""):
     return string_em
 
 
+def transform_to_md5(text_to_md5=""):
+    m = hashlib.md5()
+    m.update(text_to_md5.encode('utf-8'))
+    return m.hexdigest()
+
+
+def transform_line_md5(string_to_transform=""):
+    text_re = re.findall(r"\[\[[^\]]*\]\]", string_to_transform)
+    for pattern in text_re:
+        copypattern = pattern.replace("[[", "")
+        copypattern = copypattern.replace("]]", "")
+        md5 = transform_to_md5(pattern)
+        string_to_transform = string_to_transform.replace(pattern, md5)
+    return string_to_transform
+
+
+def replace_case(old, new, str, caseinsentive=False):
+    if caseinsentive:
+        return str.replace(old, new)
+    else:
+        return re.sub(re.escape(old), new, str, flags=re.IGNORECASE)
+
+
+def transform_remove_c(string_to_transform=""):
+    text_re = re.findall(r"\(\([^\)]*\)\)", string_to_transform)
+    for pattern in text_re:
+        patterncopy = replace_case("c", '', pattern)
+        patterncopy = patterncopy.replace("((", "")
+        patterncopy = patterncopy.replace("))", "")
+        string_to_transform = string_to_transform.replace(pattern, patterncopy)
+    return string_to_transform
+
+
 def read_file(filename="", outputfile=""):
     """read the md file"""
     with open(filename, encoding="UTF8") as juanito:
@@ -120,6 +155,10 @@ def read_file(filename="", outputfile=""):
                 temporal_text = transform_bold(temporal_text)
             if (temporal_text.count("__") >= 2):
                 temporal_text = transform_em(temporal_text)
+            if (re.search(r"\[\[[^\]]*\]\]", temporal_text)):
+                temporal_text = transform_line_md5(temporal_text)
+            if (re.search(r"\(\([^\)]*\)\)", temporal_text)):
+                temporal_text = transform_remove_c(temporal_text)
             finall_text += temporal_text
             i += 1
         write_file(outputfile, finall_text)

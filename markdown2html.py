@@ -60,12 +60,10 @@ def transform_paragraph(string_paragraph=""):
 
 
 def transform_bold(string_bold=""):
-    count = string_bold.count("**")
-    for i in range(count):
-        if(i % 2 != 0):
-            string_bold = nth_repl(string_bold, "**", "</b>", 1)
-        else:
-            string_bold = nth_repl(string_bold, "**", "<b>", 1)
+    text_re = re.findall(r"\*{2}(.*?)\*{2}", string_bold)
+    for pattern in text_re:
+        patterncopy = "{}{}{}".format("<b>", pattern, "</b>")
+        string_bold = string_bold.replace("**"+pattern+"**", patterncopy)
     return string_bold
 
 
@@ -151,7 +149,7 @@ def read_file(filename="", outputfile=""):
                 temporal_text += "</p>\n"
             else:
                 finall_text += ""
-            if (temporal_text.count("**") >= 2):
+            if (re.search(r"\*{2}(.*?)\*{2}", temporal_text)):
                 temporal_text = transform_bold(temporal_text)
             if (temporal_text.count("__") >= 2):
                 temporal_text = transform_em(temporal_text)

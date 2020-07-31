@@ -33,6 +33,14 @@ def transform_list(string_list=""):
     return "<li>{}</li>\n".format(string_list)
 
 
+def transform_order_list(string_list=""):
+    """transform html format list to html"""
+    chars_to_remove = ["*"]
+    string_list = "".join(
+        i for i in string_list if i not in chars_to_remove).strip()
+    return "<li>{}</li>\n".format(string_list)
+
+
 def read_file(filename="", outputfile=""):
     """read the md file"""
     with open(filename, encoding="UTF8") as juanito:
@@ -48,6 +56,13 @@ def read_file(filename="", outputfile=""):
                     text_list += "<ul>\n"
                 text_list += transform_list(line.strip())
                 text_list += "</ul>\n"
+            elif (len(line) > 1 and line.strip()[0] == "*"):
+                if (finall_text[-6:-1] == "</ol>"):
+                    finall_text = finall_text[0:-6]
+                else:
+                    text_list += "<ol>\n"
+                text_list += transform_order_list(line.strip())
+                text_list += "</ol>\n"
             else:
                 finall_text += ""
             finall_text += text_list

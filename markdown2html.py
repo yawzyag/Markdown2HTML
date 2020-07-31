@@ -90,7 +90,7 @@ def transform_line_md5(string_to_transform=""):
     for pattern in text_re:
         copypattern = pattern.replace("[[", "")
         copypattern = copypattern.replace("]]", "")
-        md5 = transform_to_md5(pattern)
+        md5 = transform_to_md5(copypattern)
         string_to_transform = string_to_transform.replace(pattern, md5)
     return string_to_transform
 

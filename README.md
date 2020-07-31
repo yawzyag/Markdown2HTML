@@ -62,3 +62,16 @@ with 2 lines
             
 
 ## simple text finish
+
+# My title
+- He**l**lo
+- Bye
+
+Hello
+
+I'm **a** text **2**
+with __2 lines__
+
+**Or in bold**
+
+# title
